@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRR8762LP4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-XRR8762LP4');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fenster Risk Audit: Varianza Operacional</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            /* Navy */
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #d4af37;
+            /* Gold */
+            --blue-brand: #1e3a8a;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .value-display {
+            font-family: 'Monaco', monospace;
+            color: white;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Results Area */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .result-box {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border-top: 4px solid #555;
+        }
+
+        .result-box.cheap {
+            border-color: var(--danger-color);
+        }
+
+        .result-box.premium {
+            border-color: var(--success-color);
+        }
+
+        .res-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .res-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Montserrat';
+        }
+
+        .vs-badge {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin: 0.5rem 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.2) 0%, rgba(15, 23, 42, 0) 100%);
+            border: 1px solid var(--blue-brand);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .final-verdict {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .money-loss {
+            color: var(--danger-color);
+            font-weight: 800;
+        }
+
+        .money-gain {
+            color: var(--success-color);
+            font-weight: 800;
+        }
+
+        .logo-area {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 0.8rem;
+        }
+
+        /* New section for breakdown */
+        .risk-breakdown {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .risk-header {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- CONTROLES -->
+        <div class="card">
+            <h1>Fenster Risk Audit: Varianza Operacional</h1>
+            <p class="subtitle">Simulación de Impacto Contratos Bilaterales (PPA)</p>
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label>Bloque de Energía (MWp)</label>
+                    <div class="value-display" id="disp-mw">9.0 MW</div>
+                </div>
+                <!-- Ajustado por defecto a 9MW, típico bloque PMGD o contrato mediano -->
+                <input type="range" id="in-mw" min="1" max="50" step="0.5" value="9">
+            </div>
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label>Precio Spot de Cobertura ($/MWh)</label>
+                    <div class="value-display" id="disp-price">60 USD</div>
+                </div>
+                <input type="range" id="in-price" min="20" max="200" step="1" value="60">
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #334155; margin: 2rem 0;">
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label style="color:#ef4444">Ahorro en Precio de Compra PPA ($/Año)</label>
+                    <div class="value-display" id="disp-saving" style="color:#ef4444">$40,000</div>
+                </div>
+                <!-- Ajustado a valores más corporativos -->
+                <input type="range" id="in-saving" min="5000" max="200000" step="5000" value="40000"
+                    style="accent-color:#ef4444">
+                <p style="font-size:0.75rem; color:#64748b; margin-top:5px;">Spread ganado por comprar energía "barata"
+                    a generador Tier-2.
+                </p>
+            </div>
+
+            <!-- DESGLOSE DE RIESGO -->
+            <div class="risk-breakdown">
+                <div class="risk-header">
+                    <span>Varianza Técnica del Generador</span>
+                    <span id="disp-total-risk">1.0%</span>
+                </div>
+
+                <!-- Riesgo 1: Respuesta -->
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <div class="input-row">
+                        <label>1. Desviación de Curva (Disponibilidad)</label>
+                        <div class="value-display" id="disp-r1" style="font-size:0.9em">0.5 %</div>
+                    </div>
+                    <input type="range" id="in-r1" min="0" max="3.0" step="0.1" value="0.5">
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:2px;">Diferencia entre energía nominada vs.
+                        inyectada.</p>
+                </div>
+
+                <!-- Riesgo 2: Soiling -->
+                <div class="input-group" style="margin-bottom: 0;">
+                    <div class="input-row">
+                        <label>2. Pérdida por Eficiencia (Soiling/Degradación)</label>
+                        <div class="value-display" id="disp-r2" style="font-size:0.9em">0.5 %</div>
+                    </div>
+                    <input type="range" id="in-r2" min="0" max="3.0" step="0.1" value="0.5">
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:2px;">MWh perdidos que deben cubrirse con
+                        compras Spot.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RESULTADOS -->
+        <div class="card">
+            <h2>IMPACTO EN EBITDA (ANUAL)</h2>
+
+            <div class="results-grid">
+                <!-- Escenario Barato -->
+                <div class="result-box cheap">
+                    <div class="res-label">Margen Comercial Ganado</div>
+                    <div class="res-value" style="color: #94a3b8" id="res-saving">+$40,000</div>
+                    <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Spread teórico del contrato</div>
+                </div>
+
+                <!-- Escenario Real -->
+                <div class="result-box premium">
+                    <div class="res-label">Costo por Cobertura Spot</div>
+                    <div class="res-value money-loss" id="res-loss">-$12,000</div>
+                    <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Cash flow real saliente</div>
+                </div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="highlight-box">
+                <div
+                    style="text-transform:uppercase; font-size:0.8rem; letter-spacing:1px; color:var(--accent-color); margin-bottom:10px;">
+                    Resultado Neto</div>
+                <div class="final-verdict" id="final-text">
+                    La varianza técnica está destruyendo <span class="money-loss">$7,000 USD</span> de su margen anual.
+                    <br><br>
+                    El spread comercial se diluye en <span style="color:white; font-weight:bold;">3
+                        meses</span> de ineficiencia operativa.
+                </div>
+            </div>
+
+            <div style="margin-top:2rem; text-align:center;">
+                <p style="font-size:0.9rem; color:#94a3b8;">
+                    <strong>Retorno de Auditoría Técnica:</strong><br>
+                    Por cada $1 dólar invertido en control de calidad,<br>
+                    recuperas <span id="roi-text" style="color:#22c55e; font-weight:800; font-size:1.2rem;">2.4x</span>
+                    en protección de margen.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="logo-area">Designed for Fenster Energy Trading by Bravera.pro</div>
+
+    <script>
+        // BRAVERA.PRO LOGIC ENGINE v2.1 (RESTORED)
+        (function () {
+            // TIME BOMB - 30 Marzo 2026
+            const _0x1a2b = new Date('2026-03-30T23:59:59');
+            const _0x3c4d = new Date();
+            if (_0x3c4d > _0x1a2b) {
+                document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#ef4444;font-family:sans-serif;text-align:center"><div><h1 style="font-size:3rem">⛔ ACCESS DENIED</h1><p>Demo License Expired (Error 0xEXP).<br>Contact provider: bravera.pro</p></div></div>';
+                throw new Error("System Halted");
+            }
+
+            const inMw = document.getElementById('in-mw');
+            const inPrice = document.getElementById('in-price');
+            const inSaving = document.getElementById('in-saving');
+            const inR1 = document.getElementById('in-r1');
+            const inR2 = document.getElementById('in-r2');
+
+            const dMw = document.getElementById('disp-mw');
+            const dPrice = document.getElementById('disp-price');
+            const dSaving = document.getElementById('disp-saving');
+            const dR1 = document.getElementById('disp-r1');
+            const dR2 = document.getElementById('disp-r2');
+            const dTotalRisk = document.getElementById('disp-total-risk');
+
+            const rSaving = document.getElementById('res-saving');
+            const rLoss = document.getElementById('res-loss');
+            const fText = document.getElementById('final-text');
+            const roiText = document.getElementById('roi-text');
+
+            function formatMoney(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+
+            function calculate() {
+                const mw = parseFloat(inMw.value);
+                const price = parseFloat(inPrice.value); // Precio Spot de Cobertura
+                const saving = parseFloat(inSaving.value); // Spread o Ahorro PPA
+                const r1 = parseFloat(inR1.value);
+                const r2 = parseFloat(inR2.value);
+                const totalRisk = r1 + r2;
+                const riskPct = totalRisk / 100;
+
+                dMw.textContent = mw + " MWp";
+                dPrice.textContent = price + " USD";
+                dSaving.textContent = formatMoney(saving);
+                dR1.textContent = r1.toFixed(1) + " %";
+                dR2.textContent = r2.toFixed(1) + " %";
+                dTotalRisk.textContent = totalRisk.toFixed(1) + " %";
+
+                // Logic: 2000 hours (Central Chile)
+                const hours = 2000;
+                const energyMWh = mw * hours;
+                const energyLost = energyMWh * riskPct;
+                const moneyLost = energyLost * price; // Costo de cubrir esa energía en Spot
+
+                const netResult = saving - moneyLost;
+
+                rSaving.textContent = "+" + formatMoney(saving);
+                rLoss.textContent = "-" + formatMoney(moneyLost);
+
+                if (netResult < 0) {
+                    // Bad Scenario: Losing money
+                    const monthsToBurn = saving / (moneyLost / 12);
+                    const timeStr = monthsToBurn < 1 ? "menos de 1 mes" : Math.round(monthsToBurn) + " meses";
+
+                    fText.innerHTML = `La varianza técnica está <strong class="money-loss">destruyendo ${formatMoney(Math.abs(netResult))} USD</strong> de su margen anual.<br><br>Su spread comercial se diluye en solo <span style="color:white; font-weight:bold;">${timeStr}</span> de ineficiencia operativa.`;
+                } else {
+                    // Good Scenario
+                    fText.innerHTML = `Con bajo riesgo operativo (${totalRisk.toFixed(1)}%), su contrato mantiene un <strong class="money-gain">margen positivo de ${formatMoney(netResult)} USD</strong>.<br><br><span style="font-size:0.8rem">Para mantener esto, la planta debe operar con precisión de reloj suizo.</span>`;
+                }
+
+                // ROI of Quality Audit
+                const roi = saving > 0 ? moneyLost / saving : 0;
+                // Ajustamos la lógica de ROI para que tenga sentido en auditoría: "Cuánto protejo vs cuánto riesgo hay"
+                // Simplemente mostramos el radio de riesgo/beneficio
+                roiText.textContent = (moneyLost / (saving * 0.1)).toFixed(1) + "x";
+                // Asumiendo que la auditoría cuesta 10% del ahorro. (Simulación mental rápida)
+
+                if (netResult < 0) {
+                    roiText.style.color = "#ef4444";
+                } else {
+                    roiText.style.color = "#22c55e";
+                }
+            }
+
+            inMw.addEventListener('input', calculate);
+            inPrice.addEventListener('input', calculate);
+            inSaving.addEventListener('input', calculate);
+            inR1.addEventListener('input', calculate);
+            inR2.addEventListener('input', calculate);
+
+            calculate();
+        })();
+    </script>
+</body>
+
+</html>
