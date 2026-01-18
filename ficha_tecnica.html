@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Técnica Operativa - Bravera Pro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #1e3a8a;
+            /* Azul Profundo */
+            --accent: #2563eb;
+            /* Azul Brillante */
+            --text-main: #1f2937;
+            --text-muted: #6b7280;
+            --bg-canvas: #d1d5db;
+            --border: #e5e7eb;
+            --gold-bg: #fffbeb;
+            --gold-border: #d97706;
+            --gold-text: #92400e;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            line-height: 1.5;
+            background-color: var(--bg-canvas);
+            margin: 0;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* Contenedor de Página Carta */
+        .page {
+            background-color: white;
+            width: 215.9mm;
+            /* Ancho Letter */
+            height: 279.4mm;
+            /* Alto Letter */
+            padding: 18mm 22mm;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Detalle decorativo lateral */
+        .page::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 100%;
+            /* Corregido a 100% para cubrir todo el alto */
+            background-color: var(--primary);
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .header-brand h1 {
+            color: var(--primary);
+            font-size: 24px;
+            margin: 0;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .header-brand .subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meta-info {
+            font-size: 11px;
+            text-align: right;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .meta-info strong {
+            color: var(--text-main);
+        }
+
+        /* Typography */
+        h2 {
+            font-size: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            font-weight: 800;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 6px;
+        }
+
+        h3 {
+            font-size: 13px;
+            color: #111;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+
+        h3::before {
+            content: "";
+            width: 4px;
+            height: 14px;
+            background-color: var(--accent);
+            margin-right: 10px;
+            display: inline-block;
+        }
+
+        p {
+            font-size: 13px;
+            margin-bottom: 12px;
+            color: #374151;
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        .note-box {
+            font-size: 12px;
+            font-style: italic;
+            color: var(--text-muted);
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            border: 1px solid var(--border);
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            font-size: 13px;
+            margin-bottom: 6px;
+            color: #4b5563;
+        }
+
+        li strong {
+            color: #111;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .page-indicator {
+            font-weight: 800;
+            background: var(--primary);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 2px;
+        }
+
+        /* Exclusive Quote Box */
+        .exclusive-box {
+            background-color: var(--gold-bg);
+            border: 1px solid #fde68a;
+            border-left: 6px solid var(--gold-border);
+            padding: 25px;
+            margin: 25px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .exclusive-box strong {
+            color: var(--gold-text);
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .exclusive-box p {
+            color: var(--gold-text);
+            margin-bottom: 0;
+            font-style: italic;
+            text-align: left;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                gap: 0;
+            }
+
+            .page {
+                box-shadow: none;
+                margin: 0;
+                width: 215.9mm;
+                height: 279.4mm;
+                page-break-after: always;
+            }
+
+            @page {
+                size: letter;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PÁGINA 1 -->
+    <div class="page" id="p1">
+        <header>
+            <div class="header-brand">
+                <h1>Ficha Técnica Operativa</h1>
+                <div class="subtitle">Programa de Confianza Técnica Bravera™</div>
+            </div>
+            <div class="meta-info">
+                <strong>Documento:</strong> Especificaciones de alcance<br>
+                <strong>Versión:</strong> 3.1 (2026) | <strong>Clasificación:</strong> Confidencial
+            </div>
+        </header>
+
+        <section>
+            <h2>1. Definición del servicio</h2>
+            <p>El Protocolo Bravera™ es un sistema de <strong>Ingeniería de Demanda & Defensa de Margen</strong>
+                diseñado para empresas de venta compleja. A diferencia del marketing tradicional, nuestro foco es
+                <strong>construir un Pipeline de Alta Certeza</strong> mediante la detección temprana de proyectos y la
+                sistematización de la confianza técnica para subir la tasa de cierre.
+            </p>
+            <div class="note-box">
+                Nota: El sistema no es estático; se calibra a la medida de la realidad técnica de la empresa y se adapta
+                dinámicamente a los cambios del mercado.
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Alcance técnico - Fase 1: diseño y validación (Setup)</h2>
+            <p style="font-weight: 600; color: var(--primary);">Duración estimada: 30 días corridos.</p>
+
+            <h3>2.1. Diagnóstico de Percepción de Riesgo (Audit)</h3>
+            <p>Auditoría forense de por qué el cliente percibe riesgo en lugar de valor.</p>
+            <ul>
+                <li><strong>Mapeo de cuentas:</strong> identificación de las 20 empresas con mayor probabilidad de
+                    compra en el nicho objetivo.</li>
+                <li><strong>Matriz de decisores:</strong> identificación de cargos críticos (Gerencia Técnica,
+                    Operaciones, Finanzas) y sus motivadores individuales.</li>
+                <li><strong>Hipótesis de dolor:</strong> definición técnica del problema que le cuesta dinero al cliente
+                    hoy (ej: "Falla en continuidad operacional").</li>
+            </ul>
+
+            <h3>2.2. Diseño de munición de ventas</h3>
+            <p>Creación de activos intelectuales para elevar la autoridad del equipo comercial.</p>
+            <ul>
+                <li><strong>Memo estratégico:</strong> documento "whitepaper" de 2-3 páginas que diagnostica un problema
+                    de industria y posiciona la solución del cliente como la única lógica viable.</li>
+                <li><strong>Calculadora de valor:</strong> herramienta personalizada para cuantificar el costo de
+                    inacción del prospecto. Se utiliza para desviar la conversación del "Precio" al "ROI".</li>
+            </ul>
+        </section>
+
+        <footer>
+            <div>Bravera.pro™ 2026 | Ingeniería de Demanda</div>
+            <div class="page-indicator">PAG 01</div>
+        </footer>
+    </div>
+
+    <!-- PÁGINA 2 -->
+    <div class="page" id="p2">
+        <section>
+            <h3>2.3. Blindaje de autoridad digital</h3>
+            <p>Optimización de la presencia online para validar experticia antes de la primera reunión.</p>
+            <ul>
+                <li><strong>Perfil LinkedIn:</strong> reescritura de titulares y "Acerca de" del equipo comercial clave.
+                </li>
+                <li><strong>Contenido fundacional:</strong> creación de piezas de contenido de alto valor (posts
+                    técnicos) para poblar el perfil.</li>
+            </ul>
+
+            <h3>2.4. Validación de mercado (Piloto con Trazabilidad)</h3>
+            <ul>
+                <li><strong>Infraestructura de medición:</strong> configuración de herramientas de tracking
+                    (aperturas/clics) en las cuentas de correo del equipo para obtener métricas reales.</li>
+                <li><strong>Lote de prueba:</strong> ejecución de campaña de contacto en 20 cuentas reales.</li>
+                <li><strong>Objetivo:</strong> medir tasas de apertura vs. respuesta para calibrar el mensaje con datos
+                    duros.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>3. Alcance técnico - Fase 2: sistematización y escala</h2>
+            <p style="font-weight: 600; color: var(--primary);">Modalidad: servicio recurrente mensual.</p>
+
+            <h3>3.1. Inteligencia Radar™ (Detección de proyectos)</h3>
+            <p>Sistema de alerta temprana sobre inversiones industriales.</p>
+            <ul>
+                <li><strong>Frecuencia:</strong> reporte semanal (formato PDF/Excel ejecutivo).</li>
+                <li><strong>Alcance:</strong> monitoreo de SEIA, CNE, noticias financieras y señales débiles de mercado.
+                </li>
+                <li><strong>Datos entregados:</strong> nombre del proyecto, ubicación, monto de inversión, etapa, y
+                    datos de los desarrolladores.</li>
+            </ul>
+
+            <h3>3.2. Outbound sistemático</h3>
+            <p>Ejecución delegada de la prospección en frío.</p>
+            <ul>
+                <li><strong>Volumen:</strong> contacto sostenido a nuevos prospectos semanalmente.</li>
+                <li><strong>Canales:</strong> email en frío (secuenciado) + LinkedIn Outreach.</li>
+                <li><strong>Gestión de respuestas:</strong> gestión inicial hasta lograr el "interés confirmado"
+                    (MQL/SQL).</li>
+            </ul>
+
+            <h3>3.3. Infraestructura de Ventas (Sales Ops)</h3>
+            <p>Configuración del motor tecnológico para asegurar trazabilidad.</p>
+            <ul>
+                <li><strong>CRM Setup:</strong> inyección directa de leads en el pipeline del cliente
+                    (HubSpot/Pipedrive).</li>
+                <li><strong>Tracking:</strong> instalación de trazabilidad de apertura de correos y documentos.</li>
+                <li><strong>Automatización:</strong> secuencias de seguimiento para leads fríos, liberando tiempo
+                    humano.</li>
+            </ul>
+        </section>
+
+        <footer>
+            <div>Bravera.pro™ 2026 | Ingeniería de Demanda</div>
+            <div class="page-indicator">PAG 02</div>
+        </footer>
+    </div>
+
+    <!-- PÁGINA 3 -->
+    <div class="page" id="p3">
+        <section>
+            <h3>3.4. Habilitación Táctica (Enablement)</h3>
+            <p>Aseguramos que el equipo comercial sepa usar la munición creada.</p>
+            <ul>
+                <li><strong>Clínica de uso:</strong> sesión práctica para enseñar a desplegar la Calculadora y el Memo.
+                </li>
+                <li><strong>Rol del cliente:</strong> Bravera enseña la táctica de negociación, pero el equipo del
+                    cliente mantiene el liderazgo en el contenido técnico y la ingeniería de detalle.</li>
+            </ul>
+
+            <h3>3.5. Recalibración estratégica</h3>
+            <p>Reunión mensual de comité: sesión de 45 minutos para revisar métricas y ajustar táctica.</p>
+            <ul>
+                <li><strong>Mejora de guiones:</strong> actualización constante según objeciones reales.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>4. Metodología de trabajo</h2>
+            <ul>
+                <li><strong>Consultoría autónoma:</strong> servicio prestado directamente por un Consultor de estrategia
+                    senior (sin juniors).</li>
+                <li><strong>Reportes de avance:</strong> estado de situación semanal (viernes).</li>
+                <li><strong>Sinergia táctica (ágil):</strong> Bravera opera con autonomía, pero requiere validación
+                    técnica rápida. El cliente debe designar una Contraparte técnica (para validar memos) y una
+                    comercial (para recibir leads). Cero burocracia.</li>
+                <li><strong>Coordinación:</strong> comunicación asíncrona fluida vía email/WhatsApp corporativo.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>5. Garantía de exclusividad (blindaje de nicho)</h2>
+            <p>Para evitar conflictos de interés y garantizar ventaja competitiva real:</p>
+            <div class="exclusive-box">
+                <strong>Solo se aceptará 1 cliente activo por nicho de mercado específico.</strong>
+                <p>Mientras el servicio esté activo, el Protocolo Bravera™ y la Inteligencia Radar™ operarán
+                    exclusivamente para [Nombre del Cliente] en su sector, bloqueando el acceso a sus competidores
+                    directos.</p>
+            </div>
+        </section>
+
+        <footer>
+            <div>Bravera.pro™ 2026 | Santiago, Chile</div>
+            <div class="page-indicator">PAG 03</div>
+        </footer>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bravera Intelligence - Ingeniería de Demanda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1d4ed8;
+            --accent-orange: #e7950a;
+            --bg-light: #f8fafc;
+            --bg-deck: #f1f5f9;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #0f172a;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- SISTEMA DE DIAPOSITIVAS --- */
+        .deck-wrapper {
+            width: 1280px;
+            height: 720px;
+            background-color: var(--bg-deck);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.5);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 60px 100px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(20px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            z-index: 2;
+        }
+
+        /* --- DECORACIÓN FONDO --- */
+        .blueprint-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--border-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.15;
+            z-index: 0;
+        }
+
+        .blur-decoration {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        /* --- ELEMENTOS PREMIUM --- */
+        .tag {
+            background: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            color: var(--primary-blue);
+            letter-spacing: 2px;
+            border: 1px solid var(--border-color);
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 82px;
+            line-height: 0.95;
+            color: var(--primary-blue);
+            letter-spacing: -4px;
+        }
+
+        h2.slide-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 40px;
+            color: var(--text-main);
+            margin-bottom: 40px;
+            border-left: 8px solid var(--accent-orange);
+            padding-left: 25px;
+            line-height: 1.1;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 22px;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 18px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* --- COMPONENTES --- */
+        .card {
+            background: white;
+            padding: 35px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .table-premium {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 12px;
+        }
+
+        .table-premium th {
+            text-align: left;
+            padding: 10px 25px;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .table-premium td {
+            background: white;
+            padding: 25px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-premium td:first-child {
+            border-left: 1px solid var(--border-color);
+            border-radius: 16px 0 0 16px;
+        }
+
+        .table-premium td:last-child {
+            border-right: 1px solid var(--border-color);
+            border-radius: 0 16px 16px 0;
+        }
+
+        /* --- CONTROLES --- */
+        .nav-controls {
+            position: absolute;
+            bottom: 40px;
+            right: 80px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid var(--border-color);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: var(--primary-blue);
+        }
+
+        .nav-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 6px;
+            background: var(--accent-orange);
+            transition: width 0.4s ease;
+            z-index: 100;
+        }
+
+        .slide-counter {
+            position: absolute;
+            bottom: 52px;
+            left: 80px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            font-size: 13px;
+        }
+
+        /* --- UTILS --- */
+        .highlight {
+            color: var(--primary-blue);
+            font-weight: 700;
+        }
+
+        .alert {
+            color: #ef4444;
+            font-weight: 700;
+        }
+
+        @keyframes pulse-radar {
+            0% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(0.95);
+                opacity: 0.5;
+            }
+        }
+
+        .animate-radar {
+            animation: pulse-radar 3s infinite ease-in-out;
+        }
+
+        .content-area {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* --- ESTILOS DE IMPRESIÓN (PDF PERFECTO) --- */
+        @media print {
+            @page {
+                size: 1280px 720px;
+                /* Tamaño EXACTO de la slide */
+                margin: 0;
+                /* Cero márgenes */
+            }
+
+            body {
+                background-color: white;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                margin: 0;
+                padding: 0;
+                width: 1280px;
+                height: 720px;
+                overflow: visible;
+                display: block;
+            }
+
+            .deck-wrapper {
+                width: 100%;
+                height: auto;
+                background-color: white;
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                padding: 0;
+                overflow: visible;
+                display: block;
+            }
+
+            .slide {
+                position: relative !important;
+                left: 0 !important;
+                top: 0 !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+
+                /* Forzar dimensiones y salto */
+                width: 1280px !important;
+                height: 720px !important;
+                page-break-after: always;
+                break-after: page;
+
+                display: flex;
+                background-color: var(--bg-deck);
+                overflow: hidden;
+                margin: 0;
+            }
+
+            /* Ocultar interfaz */
+            .nav-controls,
+            .progress-bar,
+            .slide-counter {
+                display: none !important;
+            }
+
+            /* Arreglar fondo */
+            .blueprint-grid,
+            .blur-decoration {
+                display: none !important;
+                /* Quitar decoraciones complejas para evitar glitch visual */
+            }
+
+            /* Recrear fondo limpio en cada slide simple */
+            .slide {
+                border: 1px solid #ddd;
+                /* Borde sutil para encuadrar */
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="deck-wrapper">
+        <div class="blueprint-grid"></div>
+        <div class="blur-decoration" style="top: -200px; right: -200px;"></div>
+        <div class="blur-decoration"
+            style="bottom: -200px; left: -200px; background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);">
+        </div>
+
+        <!-- Slide 1: Portada -->
+        <div class="slide active" id="slide-1">
+            <div class="content-area" style="text-align: center;">
+                <div class="tag" style="margin-bottom: 30px; display: inline-block;">ESTRATEGIA INDUSTRIAL B2B</div>
+                <h1>PROTOCOLO<br><span style="color: var(--text-main);">BRAVERA™</span></h1>
+                <p class="subtitle"
+                    style="font-size: 30px; color: var(--text-muted); font-weight: 600; margin: 25px auto;">
+                    Ingresos tan predecibles como tu operación.
+                </p>
+                <div
+                    style="width: 80px; height: 5px; background: var(--accent-orange); margin: 35px auto; border-radius: 3px;">
+                </div>
+                <p
+                    style="margin: 0 auto; color: var(--text-muted); font-size: 20px; font-weight: 400; letter-spacing: 0.5px;">
+                    Ingeniería de demanda y defensa de margen para empresas técnicas.</p>
+            </div>
+        </div>
+
+        <!-- Slide 2: El Diagnóstico -->
+        <div class="slide" id="slide-2">
+            <div class="content-area">
+                <h2 class="slide-title">LA CRISIS DE <span class="highlight">CONFIANZA TÉCNICA</span></h2>
+                <p style="margin-bottom: 45px; font-size: 18px; color: var(--text-muted);">El mercado castiga tu
+                    sofisticación técnica porque
+                    vendes <span class="alert">"Especificaciones" (Lógica)</span> en lugar de <span
+                        class="highlight">"Seguridad Financiera" (Confianza)</span>.</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                    <div class="card" style="border-top: 6px solid #ef4444;">
+                        <h3 style="color: #ef4444;">El vacío de confianza</h3>
+                        <p style="font-size: 16px; margin-bottom: 18px;">Si el cliente no ve la diferencia de riesgo,
+                            elige por precio.</p>
+                        <ul style="list-style: none;">
+                            <li
+                                style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; font-size: 16px;">
+                                <i class="fa-solid fa-circle-xmark" style="color:#ef4444;"></i>
+                                <span>Comparación por precio ("commodity")</span>
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 12px; font-size: 16px;">
+                                <i class="fa-solid fa-circle-xmark" style="color:#ef4444;"></i>
+                                <span>Volumen de spam sin autoridad</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card" style="border-top: 6px solid var(--primary-blue);">
+                        <h3>La solución Bravera</h3>
+                        <p style="font-size: 16px; margin-bottom: 18px;">Diseño sistémico de pipeline con autoridad
+                            técnica.</p>
+                        <ul style="list-style: none;">
+                            <li
+                                style="margin-bottom: 10px; display: flex; align-items: center; gap: 12px; font-size: 16px;">
+                                <i class="fa-solid fa-circle-check" style="color:var(--primary-blue);"></i>
+                                <span>Defensa de margen con valor real</span>
+                            </li>
+                            <li style="display: flex; align-items: center; gap: 12px; font-size: 16px;">
+                                <i class="fa-solid fa-circle-check" style="color:var(--primary-blue);"></i>
+                                <span>Pipeline predecible y escalable</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Color suavizado para la frase de cierre de diagnóstico -->
+                <div
+                    style="margin-top: 50px; text-align: center; font-style: italic; color: var(--text-muted); font-weight: 400; font-size: 18px; opacity: 0.8;">
+                    "Deja de competir por Presupuesto. Empieza a competir por Certeza."
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Metodología -->
+        <div class="slide" id="slide-3">
+            <div class="content-area">
+                <h2 class="slide-title">ARQUITECTURA DE <span class="highlight">CONFIANZA TÉCNICA</span></h2>
+                <div class="grid-3">
+                    <div class="card" style="padding: 30px;">
+                        <div
+                            style="font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent-orange); font-size: 32px; margin-bottom: 10px;">
+                            01.</div>
+                        <h3>Inteligencia Radar™</h3>
+                        <p style="font-size: 15px;">Detección temprana (60 días antes). Llegamos al proyecto antes de
+                            que se convierta en una subasta pública de precios.</p>
+                    </div>
+                    <div class="card" style="padding: 30px;">
+                        <div
+                            style="font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent-orange); font-size: 32px; margin-bottom: 10px;">
+                            02.</div>
+                        <h3>Blindaje Financiero</h3>
+                        <p style="font-size: 15px;">Ecosistema de Memos, Calculadoras y Scripts que transforman tu
+                            "Calidad Técnica" en argumentos financieros irrebatibles.</p>
+                    </div>
+                    <div class="card" style="padding: 30px;">
+                        <div
+                            style="font-family: 'Space Grotesk'; font-weight: 700; color: var(--accent-orange); font-size: 32px; margin-bottom: 10px;">
+                            03.</div>
+                        <h3>Diseño de Vínculo</h3>
+                        <p style="font-size: 15px;">Arquitectura de relación. Convertimos la "Especificación Técnica" en
+                            "Seguridad Emocional" para el decisor.</p>
+                    </div>
+                </div>
+
+                <div
+                    style="margin-top: 35px; background: rgba(255,255,255,0.4); border-radius: 24px; padding: 15px 40px; border: 1px solid var(--border-color); height: 130px; display: flex; align-items: center;">
+                    <svg viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+                        <path d="M50 50 L950 50" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="10 5" />
+                        <path d="M50 50 L500 50" stroke="var(--primary-blue)" stroke-width="2" opacity="0.4" />
+
+                        <g transform="translate(166, 50)">
+                            <circle r="10" fill="white" stroke="var(--primary-blue)" stroke-width="2.5" />
+                            <circle r="4" fill="var(--primary-blue)" />
+                            <text y="30" text-anchor="middle" font-family="Space Grotesk" font-weight="700"
+                                font-size="11" fill="var(--text-muted)">REQUISITOS</text>
+                        </g>
+
+                        <g transform="translate(500, 50)">
+                            <rect x="-12" y="-12" width="24" height="24" fill="white" stroke="var(--primary-blue)"
+                                stroke-width="2.5" rx="4" />
+                            <path d="M-5 -5 L5 5 M-5 5 L5 -5" stroke="var(--primary-blue)" stroke-width="2" />
+                            <text y="30" text-anchor="middle" font-family="Space Grotesk" font-weight="700"
+                                font-size="11" fill="var(--text-muted)">PROTOTIPADO</text>
+                        </g>
+
+                        <g transform="translate(833, 50)">
+                            <circle r="18" fill="none" stroke="var(--accent-orange)" stroke-width="1" opacity="0.3"
+                                class="animate-radar" style="transform-origin: center;" />
+                            <circle r="10" fill="white" stroke="var(--accent-orange)" stroke-width="2.5" />
+                            <circle r="4" fill="var(--accent-orange)" />
+                            <text y="30" text-anchor="middle" font-family="Space Grotesk" font-weight="700"
+                                font-size="11" fill="var(--text-muted)">RADAR™ SCALE</text>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Roadmap -->
+        <div class="slide" id="slide-4">
+            <div class="content-area">
+                <h2 class="slide-title">ROADMAP DE TRANSFORMACIÓN</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                    <div class="card" style="position: relative; padding-top: 50px;">
+                        <div
+                            style="position: absolute; top: 0; left: 0; background: var(--primary-blue); color: white; padding: 8px 20px; border-radius: 20px 0 20px 0; font-family: 'Space Grotesk'; font-weight: 700; font-size: 12px; letter-spacing: 1px;">
+                            FASE 01</div>
+                        <h3>Diseño y validación de oferta</h3>
+                        <p style="font-size: 15px; margin-bottom: 18px; font-weight: 600; color: var(--text-main);">Mes
+                            1: El objetivo es construir el motor.</p>
+                        <ul style="list-style: none; font-size: 15px; color: var(--text-muted);">
+                            <li style="margin-bottom: 8px; display: flex; gap: 10px;"><span
+                                    style="color: var(--primary-blue)">•</span> Análisis de ICP estratégico</li>
+                            <li style="margin-bottom: 8px; display: flex; gap: 10px;"><span
+                                    style="color: var(--primary-blue)">•</span> Kit de munición (Memo + Calculadora)
+                            </li>
+                            <li style="margin-bottom: 8px; display: flex; gap: 10px;"><span
+                                    style="color: var(--primary-blue)">•</span>
+                                Blindaje de autoridad digital (LinkedIn)</li>
+                            <li style="display: flex; gap: 10px;"><span style="color: var(--primary-blue)">•</span>
+                                Validación de mercado (20 cuentas)</li>
+                        </ul>
+                    </div>
+                    <div class="card" style="position: relative; padding-top: 50px;">
+                        <div
+                            style="position: absolute; top: 0; left: 0; background: var(--accent-orange); color: white; padding: 8px 20px; border-radius: 20px 0 20px 0; font-family: 'Space Grotesk'; font-weight: 700; font-size: 12px; letter-spacing: 1px;">
+                            FASE 02</div>
+                        <h3>Sistematización y escala</h3>
+                        <p style="font-size: 15px; margin-bottom: 18px; font-weight: 600; color: var(--text-main);">Mes
+                            2+: Operar las ventas a máxima capacidad.</p>
+                        <ul style="list-style: none; font-size: 15px; color: var(--text-muted);">
+                            <li style="margin-bottom: 8px; display: flex; gap: 10px;"><span
+                                    style="color: var(--accent-orange)">•</span> Inteligencia Radar™ (alertas)</li>
+                            <li style="margin-bottom: 8px; display: flex; gap: 10px;"><span
+                                    style="color: var(--accent-orange)">•</span> Outbound sistemático</li>
+                            <li style="margin-bottom: 8px; display: flex; gap: 10px;"><span
+                                    style="color: var(--accent-orange)">•</span> Recalibración estratégica continua</li>
+                            <li style="display: flex; gap: 10px;"><span style="color: var(--accent-orange)">•</span>
+                                <strong>Garantía de exclusividad de nicho</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Inversión -->
+        <div class="slide" id="slide-5">
+            <div class="content-area">
+                <h2 class="slide-title">INVERSIÓN Y CONDICIONES</h2>
+
+
+
+                <div
+                    style="background: white; border: 1px solid var(--border-color); border-radius: 12px; padding: 40px; margin-bottom: 35px; text-align: center;">
+                    <h3 style="color: var(--primary-blue); margin-bottom: 20px;">MODELO DE TRABAJO SIMPLIFICADO</h3>
+                    <p style="font-size: 18px; color: var(--text-muted); max-width: 800px; margin: 0 auto 30px;">
+                        Diseñamos una estructura de costos que escala con tu éxito, no con tus horas.
+                    </p>
+
+                    <div
+                        style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 40px; align-items: center; max-width: 900px; margin: 0 auto;">
+                        <!-- Columna Setup -->
+                        <div>
+                            <div
+                                style="font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
+                                FASE 1</div>
+                            <h4 style="font-size: 28px; color: var(--text-main); margin-bottom: 15px;">Setup y
+                                validación</h4>
+                            <p style="font-size: 15px; color: #64748b; line-height: 1.6;">
+                                Inversión fija única (One-off) para construir tu máquina de ventas (Calculadora,
+                                Mensaje, Tracking).
+                            </p>
+                        </div>
+
+                        <!-- Separador -->
+                        <div style="height: 100px; background: #e2e8f0;"></div>
+
+                        <!-- Columna Suscripción -->
+                        <div>
+                            <div
+                                style="font-size: 14px; font-weight: 700; color: var(--accent-orange); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
+                                FASE 2</div>
+                            <h4 style="font-size: 28px; color: var(--text-main); margin-bottom: 15px;">Growth partner
+                            </h4>
+                            <p style="font-size: 15px; color: #64748b; line-height: 1.6;">
+                                Fee mensual recurrente (Retainer) para operar el Radar y el Pipeline. Sin contratos
+                                forzosos.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #f1f5f9;">
+                        <p style="font-size: 14px; color: var(--primary-blue); font-weight: 600;">
+                            * La propuesta económica final se ajustará al alcance y volumen de operación definido en la
+                            reunión de cierre.
+                        </p>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <!-- Slide 6: Cierre -->
+        <div class="slide" id="slide-6">
+            <div class="content-area" style="text-align: center;">
+                <div class="tag" style="margin-bottom: 25px;">CONCLUSIÓN</div>
+                <h2
+                    style="font-size: 50px; color: var(--primary-blue); font-family: 'Montserrat'; font-weight: 800; margin-bottom: 15px;">
+                    DEJEMOS DE IMPROVISAR.</h2>
+                <h1 style="font-size: 84px; color: var(--text-main); margin-bottom: 35px;">CONSTRUYAMOS.</h1>
+                <p style="margin: 0 auto 50px; font-size: 22px; max-width: 750px;">La Ingeniería de Demanda no es magia.
+                    Es Arquitectura de Confianza.<br><span class="highlight">¿Tienes los planos de tu próxima
+                        venta?</span></p>
+
+                <a href="https://bravera.pro" style="display: inline-block; transition: transform 0.3s ease;"
+                    onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                    <img src="../web-bravera-pro/Gr%C3%A1fica/Logo%20Bravera_Valor%20Ganador.png"
+                        alt="Bravera - Valor Ganador" style="height: 120px; width: auto;">
+                </a>
+            </div>
+        </div>
+
+        <!-- FOOTER E INTERFAZ -->
+        <div class="slide-counter">01 / 06</div>
+        <div class="nav-controls">
+            <button class="nav-btn" id="prevBtn"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-btn" id="nextBtn"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+        <div class="progress-bar" id="progressBar" style="width: 16.66%;"></div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const counter = document.querySelector('.slide-counter');
+        const progress = document.getElementById('progressBar');
+        let currentSlide = 0;
+
+        function updateSlide() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) slide.classList.add('active');
+            });
+            counter.innerText = `${String(currentSlide + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+            progress.style.width = `${((currentSlide + 1) / slides.length) * 100}%`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlide();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlide();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextBtn.click();
+            if (e.key === 'ArrowLeft') prevBtn.click();
+        });
+    </script>
+</body>
+
+</html>
