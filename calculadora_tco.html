@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de TCO - EvoluSol</title>
+    <title>Calculadora de TCO - Bravera Intelligence</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600;700&display=swap"
         rel="stylesheet">
@@ -220,7 +220,7 @@
     <div class="container">
         <!-- CONTROLES -->
         <div class="card">
-            <h1>EvoluSol: TCO Analyzer</h1>
+            <h1>TCO Analyzer: Costo Real</h1>
             <p class="subtitle">Justifica tu calidad técnica demostrando el Costo Total (TCO).</p>
 
             <div class="input-group">
@@ -321,7 +321,7 @@
 
             <div style="margin-top:2rem; text-align:center;">
                 <p style="font-size:0.9rem; color:#94a3b8;">
-                    <strong>Retorno de Inversión EvoluSol:</strong><br>
+                    <strong>Retorno de Inversión (Calidad):</strong><br>
                     Por cada $1 dólar extra invertido en calidad,<br>
                     el cliente evita perder <span id="roi-text"
                         style="color:#22c55e; font-weight:800; font-size:1.2rem;">2.4x</span>
@@ -331,12 +331,12 @@
         </div>
     </div>
 
-    <div class="logo-area">Designed for EvoluSol by Bravera.pro</div>
+    <div class="logo-area">Designed by Bravera.pro Intelligence</div>
 
     <script>
         // BRAVERA.PRO SECURE LOGIC ENGINE v2.1
         // DO NOT EDIT - INTEGRITY CHECK ENABLED
-        (function () { const _0x1a2b = new Date('2026-01-18T23:59:59'), _0x3c4d = new Date(); if (_0x3c4d > _0x1a2b) { document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#ef4444;font-family:sans-serif;text-align:center"><div><h1 style="font-size:3rem">⛔ ACCESS DENIED</h1><p>Demo License Expired (Error 0xEXP).<br>Contact provider: bravera.pro</p></div></div>'; throw new Error("System Halted"); } const _iM = document.getElementById('in-mw'), _iP = document.getElementById('in-price'), _iS = document.getElementById('in-saving'), _iR1 = document.getElementById('in-r1'), _iR2 = document.getElementById('in-r2'), _dM = document.getElementById('disp-mw'), _dP = document.getElementById('disp-price'), _dS = document.getElementById('disp-saving'), _dR1 = document.getElementById('disp-r1'), _dR2 = document.getElementById('disp-r2'), _dTR = document.getElementById('disp-total-risk'), _rS = document.getElementById('res-saving'), _rL = document.getElementById('res-loss'), _fT = document.getElementById('final-text'), _rT = document.getElementById('roi-text'); function _fM(n) { return '$' + Math.round(n).toLocaleString('en-US') } function _c() { const m = parseFloat(_iM.value), p = parseFloat(_iP.value), s = parseFloat(_iS.value), r1 = parseFloat(_iR1.value), r2 = parseFloat(_iR2.value), tR = r1 + r2; _dM.textContent = m + " MWp"; _dP.textContent = p + " USD"; _dS.textContent = _fM(s); _dR1.textContent = r1.toFixed(1) + " %"; _dR2.textContent = r2.toFixed(1) + " %"; _dTR.textContent = tR.toFixed(1) + " %"; const h = 1800, aLM = m * h * (tR / 100), aLU = aLM * p, tLU = aLU * 8.5, nR = s - tLU; _rS.textContent = "+" + _fM(s); _rL.textContent = "-" + _fM(tLU); if (nR < 0) { const yn = s / aLU, yt = yn < 1 ? "menos de 1 año" : Math.round(yn * 10) / 10 + " años"; _fT.innerHTML = `Elegir la oferta barata implica perder <strong class="money-loss">${_fM(Math.abs(nR))} USD</strong> de valor en 10 años.<br><br>El ahorro del CAPEX se esfuma en <span style="color:white; font-weight:bold;">${yt}</span> de operación.` } else { _fT.innerHTML = `Con estos niveles de riesgo bajo ($${tR.toFixed(1)}%), el ahorro CAPEX aún se justifica. <br>Sube los riesgos técnicos para ver el punto de quiebre.` } const roi = s > 0 ? tLU / s : 0; _rT.textContent = roi.toFixed(1) + "x"; _rT.style.color = roi < 1 ? "#ef4444" : "#22c55e" } _iM.addEventListener('input', _c); _iP.addEventListener('input', _c); _iS.addEventListener('input', _c); _iR1.addEventListener('input', _c); _iR2.addEventListener('input', _c); _c(); })();
+        (function () { const _0x1a2b = new Date('2026-03-30T23:59:59'), _0x3c4d = new Date(); if (_0x3c4d > _0x1a2b) { document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#ef4444;font-family:sans-serif;text-align:center"><div><h1 style="font-size:3rem">⛔ ACCESS DENIED</h1><p>Demo License Expired (Error 0xEXP).<br>Contact provider: bravera.pro</p></div></div>'; throw new Error("System Halted"); } const _iM = document.getElementById('in-mw'), _iP = document.getElementById('in-price'), _iS = document.getElementById('in-saving'), _iR1 = document.getElementById('in-r1'), _iR2 = document.getElementById('in-r2'), _dM = document.getElementById('disp-mw'), _dP = document.getElementById('disp-price'), _dS = document.getElementById('disp-saving'), _dR1 = document.getElementById('disp-r1'), _dR2 = document.getElementById('disp-r2'), _dTR = document.getElementById('disp-total-risk'), _rS = document.getElementById('res-saving'), _rL = document.getElementById('res-loss'), _fT = document.getElementById('final-text'), _rT = document.getElementById('roi-text'); function _fM(n) { return '$' + Math.round(n).toLocaleString('en-US') } function _c() { const m = parseFloat(_iM.value), p = parseFloat(_iP.value), s = parseFloat(_iS.value), r1 = parseFloat(_iR1.value), r2 = parseFloat(_iR2.value), tR = r1 + r2; _dM.textContent = m + " MWp"; _dP.textContent = p + " USD"; _dS.textContent = _fM(s); _dR1.textContent = r1.toFixed(1) + " %"; _dR2.textContent = r2.toFixed(1) + " %"; _dTR.textContent = tR.toFixed(1) + " %"; const h = 1800, aLM = m * h * (tR / 100), aLU = aLM * p, tLU = aLU * 8.5, nR = s - tLU; _rS.textContent = "+" + _fM(s); _rL.textContent = "-" + _fM(tLU); if (nR < 0) { const yn = s / aLU, yt = yn < 1 ? "menos de 1 año" : Math.round(yn * 10) / 10 + " años"; _fT.innerHTML = `Elegir la oferta barata implica perder <strong class="money-loss">${_fM(Math.abs(nR))} USD</strong> de valor en 10 años.<br><br>El ahorro del CAPEX se esfuma en <span style="color:white; font-weight:bold;">${yt}</span> de operación.` } else { _fT.innerHTML = `Con estos niveles de riesgo bajo ($${tR.toFixed(1)}%), el ahorro CAPEX aún se justifica. <br>Sube los riesgos técnicos para ver el punto de quiebre.` } const roi = s > 0 ? tLU / s : 0; _rT.textContent = roi.toFixed(1) + "x"; _rT.style.color = roi < 1 ? "#ef4444" : "#22c55e" } _iM.addEventListener('input', _c); _iP.addEventListener('input', _c); _iS.addEventListener('input', _c); _iR1.addEventListener('input', _c); _iR2.addEventListener('input', _c); _c(); })();
     </script>
 </body>
 

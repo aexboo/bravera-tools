@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Varianza - ID Energy Group</title>
+    <title>Calculadora de Varianza - Bravera Intelligence</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600;700&display=swap"
         rel="stylesheet">
@@ -220,7 +220,7 @@
     <div class="container">
         <!-- CONTROLES -->
         <div class="card">
-            <h1>Calculadora de Varianza</h1>
+            <h1>Varianza de Retorno: Análisis de Riesgo</h1>
             <p class="subtitle">¿Cuánto cuesta realmente contratar al proveedor barato?</p>
 
             <div class="input-group">
@@ -321,7 +321,7 @@
 
             <div style="margin-top:2rem; text-align:center;">
                 <p style="font-size:0.9rem; color:#94a3b8;">
-                    <strong>Retorno de Inversión ID Energy:</strong><br>
+                    <strong>Retorno de Inversión (Calidad Técnica):</strong><br>
                     Por cada $1 dólar extra que pagas en nuestro servicio,<br>
                     recuperas <span id="roi-text" style="color:#22c55e; font-weight:800; font-size:1.2rem;">2.4x</span>
                     en energía vendida.
@@ -330,118 +330,128 @@
         </div>
     </div>
 
-    <div class="logo-area">Powered by bravera.pro for ID Energy Group</div>
+    <div class="logo-area">Powered by bravera.pro Intelligence</div>
 
     <script>
-        // Inputs Principales
-        const inMw = document.getElementById('in-mw');
-        const inPrice = document.getElementById('in-price');
-        const inSaving = document.getElementById('in-saving');
-
-        // Inputs Riesgo (Desglose)
-        const inR1 = document.getElementById('in-r1'); // Respuesta
-        const inR2 = document.getElementById('in-r2'); // Soiling
-
-        // Displays
-        const dMw = document.getElementById('disp-mw');
-        const dPrice = document.getElementById('disp-price');
-        const dSaving = document.getElementById('disp-saving');
-
-        const dR1 = document.getElementById('disp-r1');
-        const dR2 = document.getElementById('disp-r2');
-        const dTotalRisk = document.getElementById('disp-total-risk');
-
-        // Results
-        const rSaving = document.getElementById('res-saving');
-        const rLoss = document.getElementById('res-loss');
-        const fText = document.getElementById('final-text');
-        const roiText = document.getElementById('roi-text');
-
-        function formatMoney(amount) {
-            return '$' + Math.round(amount).toLocaleString('en-US');
-        }
-
-        function calculate() {
-            // Valores Inputs
-            const mw = parseFloat(inMw.value);
-            const price = parseFloat(inPrice.value);
-            const saving = parseFloat(inSaving.value);
-
-            // Valores Riesgo
-            const valR1 = parseFloat(inR1.value);
-            const valR2 = parseFloat(inR2.value);
-            const totalRisk = valR1 + valR2; // % total (ej: 1.5)
-            const riskPct = totalRisk / 100; // decimal (ej: 0.015)
-
-            // Actualizar UI Inputs
-            dMw.textContent = mw + " MWp";
-            dPrice.textContent = price + " USD";
-            dSaving.textContent = formatMoney(saving);
-
-            dR1.textContent = valR1.toFixed(1) + " %";
-            dR2.textContent = valR2.toFixed(1) + " %";
-            dTotalRisk.textContent = totalRisk.toFixed(1) + " %";
-
-            // Cálculos Físicos
-            // Asunción: 2000 horas equivalentes (Zona Central Chile tipico PMGD)
-            const hours = 2000;
-            const energyMWh = mw * hours;
-
-            // Pérdida Financiera
-            const energyLost = energyMWh * riskPct;
-            const moneyLost = energyLost * price;
-
-            // Balance
-            const netResult = saving - moneyLost;
-
-            // Update UI
-            rSaving.textContent = "+" + formatMoney(saving);
-            rLoss.textContent = "-" + formatMoney(moneyLost);
-
-            // Texto Dinámico
-            if (netResult < 0) {
-                // Pierde dinero (Escenario normal)
-                // Calculo de "meses para esfumarse"
-                // saving / (moneyLost / 12)
-                let months = 0;
-                if (moneyLost > 0) months = saving / (moneyLost / 12);
-                const monthsText = months < 1 ? "menos de 1 mes" : Math.round(months) + " meses";
-
-                fText.innerHTML = `
-                    Al contratar el servicio barato, estás <strong class="money-loss">perdiendo ${formatMoney(Math.abs(netResult))} USD</strong> netos al año.
-                    <br><br>
-                    El "ahorro" del contrato se esfumó en solo <span style="color:white; font-weight:bold;">${monthsText}</span> de ineficiencia.
-                `;
-            } else {
-                // Gana dinero (Riesgo muy bajo configurado)
-                fText.innerHTML = `
-                    En este escenario de bajo riesgo (${totalRisk.toFixed(1)}%), el servicio barato <strong class="money-gain">ahorra ${formatMoney(netResult)} USD</strong>.
-                    <br><br>
-                    <span style="font-size:0.8rem">Esto asume que el proveedor barato NO comete errores graves. Si el riesgo sube al 1%, pierdes dinero.</span>
-                `;
+        // BRAVERA.PRO SECURE LOGIC ENGINE v2.1
+        // DO NOT EDIT - INTEGRITY CHECK ENABLED
+        (function () {
+            const _0x1a2b = new Date('2026-03-30T23:59:59'); // EXPIRATION DATE
+            const _0x3c4d = new Date();
+            if (_0x3c4d > _0x1a2b) {
+                document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#ef4444;font-family:sans-serif;text-align:center"><div><h1 style="font-size:3rem">⛔ ACCESS DENIED</h1><p>Demo License Expired (Error 0xEXP).<br>Contact provider: bravera.pro</p></div></div>';
+                throw new Error("System Halted");
             }
 
-            // ROI de ID Energy
-            const roi = saving > 0 ? moneyLost / saving : 0;
-            roiText.textContent = roi.toFixed(1) + "x";
+            // Inputs Principales
+            const inMw = document.getElementById('in-mw');
+            const inPrice = document.getElementById('in-price');
+            const inSaving = document.getElementById('in-saving');
 
-            if (roi < 1) {
-                roiText.style.color = "#ef4444";
-            } else {
-                roiText.style.color = "#22c55e";
+            // Inputs Riesgo (Desglose)
+            const inR1 = document.getElementById('in-r1'); // Respuesta
+            const inR2 = document.getElementById('in-r2'); // Soiling
+
+            // Displays
+            const dMw = document.getElementById('disp-mw');
+            const dPrice = document.getElementById('disp-price');
+            const dSaving = document.getElementById('disp-saving');
+
+            const dR1 = document.getElementById('disp-r1');
+            const dR2 = document.getElementById('disp-r2');
+            const dTotalRisk = document.getElementById('disp-total-risk');
+
+            // Results
+            const rSaving = document.getElementById('res-saving');
+            const rLoss = document.getElementById('res-loss');
+            const fText = document.getElementById('final-text');
+            const roiText = document.getElementById('roi-text');
+
+            function formatMoney(amount) {
+                return '$' + Math.round(amount).toLocaleString('en-US');
             }
-        }
 
-        // Events
-        inMw.addEventListener('input', calculate);
-        inPrice.addEventListener('input', calculate);
-        inSaving.addEventListener('input', calculate);
-        inR1.addEventListener('input', calculate);
-        inR2.addEventListener('input', calculate);
+            function calculate() {
+                // Valores Inputs
+                const mw = parseFloat(inMw.value);
+                const price = parseFloat(inPrice.value);
+                const saving = parseFloat(inSaving.value);
 
-        // Init
-        calculate();
+                // Valores Riesgo
+                const valR1 = parseFloat(inR1.value);
+                const valR2 = parseFloat(inR2.value);
+                const totalRisk = valR1 + valR2; // % total (ej: 1.5)
+                const riskPct = totalRisk / 100; // decimal (ej: 0.015)
 
+                // Actualizar UI Inputs
+                dMw.textContent = mw + " MWp";
+                dPrice.textContent = price + " USD";
+                dSaving.textContent = formatMoney(saving);
+
+                dR1.textContent = valR1.toFixed(1) + " %";
+                dR2.textContent = valR2.toFixed(1) + " %";
+                dTotalRisk.textContent = totalRisk.toFixed(1) + " %";
+
+                // Cálculos Físicos
+                // Asunción: 2000 horas equivalentes (Zona Central Chile tipico PMGD)
+                const hours = 2000;
+                const energyMWh = mw * hours;
+
+                // Pérdida Financiera
+                const energyLost = energyMWh * riskPct;
+                const moneyLost = energyLost * price;
+
+                // Balance
+                const netResult = saving - moneyLost;
+
+                // Update UI
+                rSaving.textContent = "+" + formatMoney(saving);
+                rLoss.textContent = "-" + formatMoney(moneyLost);
+
+                // Texto Dinámico
+                if (netResult < 0) {
+                    // Pierde dinero (Escenario normal)
+                    // Calculo de "meses para esfumarse"
+                    // saving / (moneyLost / 12)
+                    let months = 0;
+                    if (moneyLost > 0) months = saving / (moneyLost / 12);
+                    const monthsText = months < 1 ? "menos de 1 mes" : Math.round(months) + " meses";
+
+                    fText.innerHTML = `
+                        Al contratar el servicio barato, estás <strong class="money-loss">perdiendo ${formatMoney(Math.abs(netResult))} USD</strong> netos al año.
+                        <br><br>
+                        El "ahorro" del contrato se esfumó en solo <span style="color:white; font-weight:bold;">${monthsText}</span> de ineficiencia.
+                    `;
+                } else {
+                    // Gana dinero (Riesgo muy bajo configurado)
+                    fText.innerHTML = `
+                        En este escenario de bajo riesgo (${totalRisk.toFixed(1)}%), el servicio barato <strong class="money-gain">ahorra ${formatMoney(netResult)} USD</strong>.
+                        <br><br>
+                        <span style="font-size:0.8rem">Esto asume que el proveedor barato NO comete errores graves. Si el riesgo sube al 1%, pierdes dinero.</span>
+                    `;
+                }
+
+                // ROI de ID Energy
+                const roi = saving > 0 ? moneyLost / saving : 0;
+                roiText.textContent = roi.toFixed(1) + "x";
+
+                if (roi < 1) {
+                    roiText.style.color = "#ef4444";
+                } else {
+                    roiText.style.color = "#22c55e";
+                }
+            }
+
+            // Events
+            inMw.addEventListener('input', calculate);
+            inPrice.addEventListener('input', calculate);
+            inSaving.addEventListener('input', calculate);
+            inR1.addEventListener('input', calculate);
+            inR2.addEventListener('input', calculate);
+
+            // Init
+            calculate();
+        })();
     </script>
 </body>
 
