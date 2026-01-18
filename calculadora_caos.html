@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XRR8762LP4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-XRR8762LP4');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ineficiencia Operativa (Cost of Chaos)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #111827;
+            /* Dark Gray */
+            --card-bg: #1f2937;
+            --text-primary: #f9fafb;
+            --text-secondary: #9ca3af;
+            --accent-color: #f59e0b;
+            /* Amber */
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .value-display {
+            font-family: monospace;
+            color: white;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #374151;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .res-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #9ca3af;
+            letter-spacing: 1px;
+        }
+
+        .res-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin: 0.5rem 0;
+        }
+
+        .cta-box {
+            margin-top: 2rem;
+            text-align: center;
+            padding-top: 1rem;
+            border-top: 1px solid #374151;
+        }
+
+        .logo {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Inputs -->
+        <div class="card">
+            <h1>Diagnóstico de Caos Operativo</h1>
+            <p class="subtitle">Calcula el costo oculto de la gestión manual de O&M.</p>
+
+            <div class="input-group">
+                <div class="input-row"><label>Plantas en Cartera</label>
+                    <div class="value-display" id="disp-plants">10</div>
+                </div>
+                <input type="range" id="in-plants" min="1" max="50" value="10">
+            </div>
+
+            <div class="input-group">
+                <div class="input-row"><label>Visitas Innecesarias / Mes (Falsos Positivos)</label>
+                    <div class="value-display" id="disp-visits">2</div>
+                </div>
+                <input type="range" id="in-visits" min="0" max="10" step="1" value="2">
+                <p style="font-size:0.7rem; color:#6b7280; margin-top:5px;">Promedio por planta. Salidas a terreno por
+                    alertas que no eran críticas.</p>
+            </div>
+
+            <div class="input-group">
+                <div class="input-row"><label>Costo Logístico por Visita ($USD)</label>
+                    <div class="value-display" id="disp-cost">250 USD</div>
+                </div>
+                <input type="range" id="in-cost" min="100" max="1000" step="50" value="250">
+                <p style="font-size:0.7rem; color:#6b7280; margin-top:5px;">Camioneta, combustible, técnico, peajes.</p>
+            </div>
+
+            <div class="input-group">
+                <div class="input-row"><label>Horas Gerenciales en Supervisión / Mes</label>
+                    <div class="value-display" id="disp-hours">10 h</div>
+                </div>
+                <input type="range" id="in-hours" min="0" max="40" step="1" value="10">
+                <p style="font-size:0.7rem; color:#6b7280; margin-top:5px;">Tiempo del CEO/Gerente Ops revisando
+                    portales o apagando incendios.</p>
+            </div>
+            <div class="input-group">
+                <div class="input-row"><label>Valor Hora Gerente ($USD)</label>
+                    <div class="value-display" id="disp-rate">100 USD</div>
+                </div>
+                <input type="range" id="in-rate" min="50" max="300" step="10" value="100">
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div class="card" style="display:flex; flex-direction:column; justify-content:center;">
+            <div class="result-box">
+                <div class="res-label">Dinero Quemado Anual (O&M Inútil)</div>
+                <div class="res-value" id="res-money" style="color:var(--danger-color)">$0</div>
+                <div style="font-size:0.8rem; color:#9ca3af">Por enviar técnicos a "mirar"</div>
+            </div>
+
+            <div class="result-box" style="border-left-color:var(--accent-color)">
+                <div class="res-label">Costo de Oportunidad Gerencial</div>
+                <div class="res-value" id="res-management" style="color:var(--accent-color)">$0</div>
+                <div style="font-size:0.8rem; color:#9ca3af">En lugar de estar vendiendo o creciendo</div>
+            </div>
+
+            <div style="text-align:center; margin-top:1rem;">
+                <div style="font-size:3rem; font-weight:800; line-height:1;" id="res-total">$0</div>
+                <div
+                    style="text-transform:uppercase; letter-spacing:2px; font-size:0.8rem; margin-top:0.5rem; color:#6b7280;">
+                    Costo Total del Caos (Anual)</div>
+            </div>
+
+            <div class="cta-box">
+                <p style="font-size:0.9rem;">
+                    Bravera automatiza la vigilancia por una fracción de este costo.
+                    <br><strong>¿Seguimos perdiendo dinero o ponemos orden?</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="logo">Bravera Intelligence Tools</div>
+
+    <script>
+        (function () {
+            // Time Bomb Check
+            const killDate = new Date('2026-06-30');
+            if (new Date() > killDate) { document.body.innerHTML = '<h1>Resource Expired</h1>'; return; }
+
+            const inputs = ['in-plants', 'in-visits', 'in-cost', 'in-hours', 'in-rate'];
+            const controls = {};
+            inputs.forEach(id => controls[id] = document.getElementById(id));
+
+            const displays = {
+                plants: document.getElementById('disp-plants'),
+                visits: document.getElementById('disp-visits'),
+                cost: document.getElementById('disp-cost'),
+                hours: document.getElementById('disp-hours'),
+                rate: document.getElementById('disp-rate'),
+                money: document.getElementById('res-money'),
+                mgmt: document.getElementById('res-management'),
+                total: document.getElementById('res-total')
+            };
+
+            function fmt(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+
+            function calc() {
+                const plants = parseInt(controls['in-plants'].value);
+                const visits = parseFloat(controls['in-visits'].value);
+                const cost = parseFloat(controls['in-cost'].value);
+                const hours = parseFloat(controls['in-hours'].value);
+                const rate = parseFloat(controls['in-rate'].value);
+
+                displays.plants.textContent = plants;
+                displays.visits.textContent = visits;
+                displays.cost.textContent = cost + " USD";
+                displays.hours.textContent = hours + " h";
+                displays.rate.textContent = rate + " USD";
+
+                // Math
+                // Visitas inútiles al año = Plantas * Visitas/mes * 12 * Costo
+                const wastedOps = plants * visits * 12 * cost;
+
+                // Horas gerenciales = Horas * 12 * Rate (Se asume gestión de cartera total)
+                const wastedMgmt = hours * 12 * rate;
+
+                const total = wastedOps + wastedMgmt;
+
+                displays.money.textContent = fmt(wastedOps);
+                displays.mgmt.textContent = fmt(wastedMgmt);
+                displays.total.textContent = fmt(total);
+            }
+
+            inputs.forEach(id => controls[id].addEventListener('input', calc));
+            calc();
+        })();
+    </script>
+</body>
+
+</html>
