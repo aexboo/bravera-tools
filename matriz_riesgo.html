@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bravera Risk Matrix: Residencial</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 2rem;
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #334155;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            color: #fff;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+
+        .dial-container {
+            position: relative;
+            width: 300px;
+            height: 150px;
+            margin: 0 auto 2rem auto;
+            overflow: hidden;
+        }
+
+        .dial-bg {
+            width: 300px;
+            height: 150px;
+            background: conic-gradient(from 180deg at 50% 100%, #22c55e 0deg 60deg, #eab308 60deg 120deg, #ef4444 120deg 180deg);
+            border-radius: 150px 150px 0 0;
+            opacity: 0.8;
+        }
+
+        .needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 140px;
+            background: white;
+            transform-origin: bottom center;
+            transform: rotate(-90deg);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 2px;
+        }
+
+        .needle::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            -webkit-appearance: none;
+            outline: none;
+            margin-top: 10px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #3b82f6;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid #1e293b;
+        }
+
+        .status-box {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin-top: 2rem;
+            border: 1px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .status-header {
+            font-family: 'Montserrat';
+            text-transform: uppercase;
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+
+        .safe {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: #22c55e;
+            color: #4ade80;
+        }
+
+        .warn {
+            background: rgba(234, 179, 8, 0.1);
+            border-color: #eab308;
+            color: #facc15;
+        }
+
+        .danger {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #f87171;
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.75rem;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Matriz de Riesgo: Fuego</h1>
+        <p class="subtitle">Analiza la seguridad de tu instalación solar residencial.</p>
+
+        <!-- VELOCÍMETRO -->
+        <div class="dial-container">
+            <div class="dial-bg"></div>
+            <div class="needle" id="needle"></div>
+            <!-- Labels -->
+            <div style="position: absolute; bottom: 5px; left: 10px; font-size: 12px; font-weight: bold; color: white;">
+                SEGURO</div>
+            <div
+                style="position: absolute; bottom: 5px; right: 10px; font-size: 12px; font-weight: bold; color: white;">
+                PELIGRO</div>
+        </div>
+
+        <!-- CONTROLES -->
+        <div class="mb-6">
+            <div class="flex justify-between mb-1">
+                <label class="text-sm text-slate-400 font-semibold">Costo Total Instalación (CLP)</label>
+                <div class="font-mono font-bold text-white" id="disp-cost">$4.000.000</div>
+            </div>
+            <input type="range" id="in-cost" min="1500000" max="8000000" step="100000" value="4000000">
+            <p class="text-xs text-slate-500 mt-2">Desliza para simular presupuestos más baratos.</p>
+        </div>
+
+        <!-- RESULTADO -->
+        <div id="status-box" class="status-box safe">
+            <div class="status-header" id="status-title">RIESGO BAJO</div>
+            <p class="text-sm mt-2 opacity-90" id="status-desc">Instalación certificada con protecciones DC y cableado
+                normativo.</p>
+        </div>
+
+        <div class="logo-area">Powered by Bravera Intelligence</div>
+    </div>
+
+    <script>
+        // BRAVERA SECURE TIME-BOMB
+        (function () { const d = new Date('2026-03-30'); if (new Date() > d) { document.body.innerHTML = '<h1>EXPIRED</h1>'; throw 'Expired'; } })();
+
+        const inCost = document.getElementById('in-cost');
+        const dCost = document.getElementById('disp-cost');
+        const needle = document.getElementById('needle');
+        const box = document.getElementById('status-box');
+        const title = document.getElementById('status-title');
+        const desc = document.getElementById('status-desc');
+
+        function update() {
+            const cost = parseInt(inCost.value);
+            dCost.textContent = '$' + cost.toLocaleString('es-CL');
+
+            // Lógica Inversa: Más barato = Más Riesgo (Aguja a la derecha)
+            // Rango: 1.5M (Peligro) a 8M (Seguro)
+            // Normalizamos de 0 (Seguro) a 1 (Peligro) para la aguja
+            // Aguja: -90deg (Izq/Seguro) a +90deg (Der/Peligro)
+
+            const maxCost = 8000000;
+            const minCost = 1500000;
+
+            // Invertimos: (Max - Actual) / (Max - Min)
+            const riskFactor = (maxCost - cost) / (maxCost - minCost);
+            const angle = -90 + (riskFactor * 180);
+
+            needle.style.transform = `rotate(${angle}deg)`;
+
+            // Estados
+            box.classList.remove('safe', 'warn', 'danger');
+
+            if (cost < 2500000) {
+                // PELIGRO
+                box.classList.add('danger');
+                title.textContent = "ALERTA: RIESGO DE INCENDIO";
+                desc.textContent = "Presupuesto insuficiente para protecciones DC de arco eléctrico. Alta probabilidad de falla catastrófica en 2-3 años.";
+            } else if (cost < 4500000) {
+                // PRECAUCIÓN
+                box.classList.add('warn');
+                title.textContent = "RIESGO: CALIDAD MEDIA";
+                desc.textContent = "Materiales estándar. Cumple normativa mínima pero vulnerable a fatiga térmica acelerada.";
+            } else {
+                // SEGURO
+                box.classList.add('safe');
+                title.textContent = "BLINDAJE TÉCNICO: ALTO";
+                desc.textContent = "Instalación Premium con protecciones redundantes y monitorización por panel. Riesgo cercano a cero.";
+            }
+        }
+
+        inCost.addEventListener('input', update);
+        update();
+    </script>
+</body>
+
+</html>
