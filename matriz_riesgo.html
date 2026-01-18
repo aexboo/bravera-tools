@@ -58,9 +58,9 @@
         .dial-bg {
             width: 300px;
             height: 150px;
-            background: conic-gradient(from 180deg at 50% 100%, #22c55e 0deg 60deg, #eab308 60deg 120deg, #ef4444 120deg 180deg);
+            background: conic-gradient(from 270deg at 50% 100%, #22c55e 0deg, #eab308 90deg, #ef4444 180deg);
             border-radius: 150px 150px 0 0;
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .needle {
@@ -157,7 +157,7 @@
 <body>
     <div class="card">
         <h1>Matriz de Riesgo: Fuego</h1>
-        <p class="subtitle">Analiza la seguridad de tu instalación solar residencial.</p>
+        <p class="subtitle">Analiza la seguridad en cubiertas Residenciales y Comerciales.</p>
 
         <!-- VELOCÍMETRO -->
         <div class="dial-container">
@@ -174,11 +174,11 @@
         <!-- CONTROLES -->
         <div class="mb-6">
             <div class="flex justify-between mb-1">
-                <label class="text-sm text-slate-400 font-semibold">Costo Total Instalación (CLP)</label>
-                <div class="font-mono font-bold text-white" id="disp-cost">$4.000.000</div>
+                <label class="text-sm text-slate-400 font-semibold">Inversión Proyecto (CLP)</label>
+                <div class="font-mono font-bold text-white" id="disp-cost">$12.000.000</div>
             </div>
-            <input type="range" id="in-cost" min="1500000" max="8000000" step="100000" value="4000000">
-            <p class="text-xs text-slate-500 mt-2">Desliza para simular presupuestos más baratos.</p>
+            <input type="range" id="in-cost" min="3000000" max="25000000" step="500000" value="12000000">
+            <p class="text-xs text-slate-500 mt-2">Rango: Pequeña/Mediana Empresa e Industrial Ligero.</p>
         </div>
 
         <!-- RESULTADO -->
@@ -206,13 +206,8 @@
             const cost = parseInt(inCost.value);
             dCost.textContent = '$' + cost.toLocaleString('es-CL');
 
-            // Lógica Inversa: Más barato = Más Riesgo (Aguja a la derecha)
-            // Rango: 1.5M (Peligro) a 8M (Seguro)
-            // Normalizamos de 0 (Seguro) a 1 (Peligro) para la aguja
-            // Aguja: -90deg (Izq/Seguro) a +90deg (Der/Peligro)
-
-            const maxCost = 8000000;
-            const minCost = 1500000;
+            const maxCost = 25000000;
+            const minCost = 3000000;
 
             // Invertimos: (Max - Actual) / (Max - Min)
             const riskFactor = (maxCost - cost) / (maxCost - minCost);
@@ -223,21 +218,21 @@
             // Estados
             box.classList.remove('safe', 'warn', 'danger');
 
-            if (cost < 2500000) {
-                // PELIGRO
+            if (cost < 8000000) {
+                // PELIGRO (Barato para Comercial / Estándar para Casa)
                 box.classList.add('danger');
-                title.textContent = "ALERTA: RIESGO DE INCENDIO";
-                desc.textContent = "Presupuesto insuficiente para protecciones DC de arco eléctrico. Alta probabilidad de falla catastrófica en 2-3 años.";
-            } else if (cost < 4500000) {
+                title.textContent = "ALERTA: RIESGO CRÍTICO";
+                desc.textContent = "Presupuesto 'commodity'. Omite protecciones de arco y monitoreo por panel. Riesgo de incendio en techos comerciales alto.";
+            } else if (cost < 16000000) {
                 // PRECAUCIÓN
                 box.classList.add('warn');
-                title.textContent = "RIESGO: CALIDAD MEDIA";
-                desc.textContent = "Materiales estándar. Cumple normativa mínima pero vulnerable a fatiga térmica acelerada.";
+                title.textContent = "RIESGO: MEDIO";
+                desc.textContent = "Estándar de mercado. Cumple normativa eléctrica básica, pero sin redundancia de seguridad para activos empresariales.";
             } else {
                 // SEGURO
                 box.classList.add('safe');
-                title.textContent = "BLINDAJE TÉCNICO: ALTO";
-                desc.textContent = "Instalación Premium con protecciones redundantes y monitorización por panel. Riesgo cercano a cero.";
+                title.textContent = "BLINDAJE TÉCNICO: TOTAL";
+                desc.textContent = "Grado Industrial. Incluye microinversores, desconexión rápida (NEC 2017) y materiales ignífugos. Seguro aceptado por compañías.";
             }
         }
 
