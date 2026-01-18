@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de TCO - EvoluSol</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            /* Navy */
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #38bdf8;
+            /* Light Blue for EvoluSol/Generic tech feel */
+            --blue-brand: #0284c7;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .value-display {
+            font-family: 'Monaco', monospace;
+            color: white;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Results Area */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .result-box {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border-top: 4px solid #555;
+        }
+
+        .result-box.cheap {
+            border-color: var(--danger-color);
+        }
+
+        .result-box.premium {
+            border-color: var(--success-color);
+        }
+
+        .res-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .res-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Montserrat';
+        }
+
+        .vs-badge {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin: 0.5rem 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1) 0%, rgba(15, 23, 42, 0) 100%);
+            border: 1px solid var(--blue-brand);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .final-verdict {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .money-loss {
+            color: var(--danger-color);
+            font-weight: 800;
+        }
+
+        .money-gain {
+            color: var(--success-color);
+            font-weight: 800;
+        }
+
+        .logo-area {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 0.8rem;
+        }
+
+        /* New section for breakdown */
+        .risk-breakdown {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .risk-header {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- CONTROLES -->
+        <div class="card">
+            <h1>EvoluSol: TCO Analyzer</h1>
+            <p class="subtitle">Justifica tu calidad técnica demostrando el Costo Total (TCO).</p>
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label>Tamaño de Proyecto (MWp)</label>
+                    <div class="value-display" id="disp-mw">3.0 MW</div>
+                </div>
+                <input type="range" id="in-mw" min="0.5" max="20" step="0.5" value="3">
+            </div>
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label>Precio Venta Energía ($/MWh)</label>
+                    <div class="value-display" id="disp-price">60 USD</div>
+                </div>
+                <input type="range" id="in-price" min="20" max="120" step="1" value="60">
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #334155; margin: 2rem 0;">
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label style="color:#ef4444">Ahorro Inicial (CAPEX Competencia)</label>
+                    <div class="value-display" id="disp-saving" style="color:#ef4444">$15,000</div>
+                </div>
+                <input type="range" id="in-saving" min="5000" max="100000" step="5000" value="15000"
+                    style="accent-color:#ef4444">
+                <p style="font-size:0.75rem; color:#64748b; margin-top:5px;">Diferencia de precio en la licitación.
+                </p>
+            </div>
+
+            <!-- DESGLOSE DE RIESGO -->
+            <div class="risk-breakdown">
+                <div class="risk-header">
+                    <span>Riesgos Técnicos Ocultos</span>
+                    <span id="disp-total-risk">1.5%</span>
+                </div>
+
+                <!-- Riesgo 1: Disponibilidad -->
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <div class="input-row">
+                        <label>1. Caída de Disponibilidad (PR)</label>
+                        <div class="value-display" id="disp-r1" style="font-size:0.9em">1.0 %</div>
+                    </div>
+                    <input type="range" id="in-r1" min="0" max="5.0" step="0.1" value="1.0">
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:2px;">Inversores baratos / Fallas trip.</p>
+                </div>
+
+                <!-- Riesgo 2: Degradación -->
+                <div class="input-group" style="margin-bottom: 0;">
+                    <div class="input-row">
+                        <label>2. Degradación Acelerada / Año</label>
+                        <div class="value-display" id="disp-r2" style="font-size:0.9em">0.5 %</div>
+                    </div>
+                    <input type="range" id="in-r2" min="0" max="2.0" step="0.1" value="0.5">
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:2px;">Calidad de paneles tier-2 o mal montaje.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RESULTADOS -->
+        <div class="card">
+            <h2>IMPACTO EN 10 AÑOS</h2>
+            <!-- Nota: Cambié a 10 años para mostrar impacto TCO real de CAPEX -->
+
+            <div class="results-grid">
+                <!-- Escenario Barato -->
+                <div class="result-box cheap">
+                    <div class="res-label">Ahorro en Construcción (Hoy)</div>
+                    <div class="res-value" style="color: #94a3b8" id="res-saving">+$15,000</div>
+                    <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Lo que el cliente "cree" que gana
+                    </div>
+                </div>
+
+                <!-- Escenario Real -->
+                <div class="result-box premium">
+                    <div class="res-label">Pérdida de Energía (10 años)</div>
+                    <div class="res-value money-loss" id="res-loss">-$36,000</div>
+                    <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Valor Presente Neto (Aprox 5%)</div>
+                </div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="highlight-box">
+                <div
+                    style="text-transform:uppercase; font-size:0.8rem; letter-spacing:1px; color:var(--accent-color); margin-bottom:10px;">
+                    Veredicto Financiero</div>
+                <div class="final-verdict" id="final-text">
+                    La licitación barata te cuesta <span class="money-loss">$21,000 USD</span> adicionales a largo
+                    plazo.
+                    <br><br>
+                    Lo barato sale caro en <span style="color:white; font-weight:bold;">4 años</span>.
+                </div>
+            </div>
+
+            <div style="margin-top:2rem; text-align:center;">
+                <p style="font-size:0.9rem; color:#94a3b8;">
+                    <strong>Retorno de Inversión EvoluSol:</strong><br>
+                    Por cada $1 dólar extra invertido en calidad,<br>
+                    el cliente evita perder <span id="roi-text"
+                        style="color:#22c55e; font-weight:800; font-size:1.2rem;">2.4x</span>
+                    en generación futura.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="logo-area">Designed for EvoluSol by Bravera.pro</div>
+
+    <script>
+        // BRAVERA.PRO SECURE LOGIC ENGINE v2.1
+        // DO NOT EDIT - INTEGRITY CHECK ENABLED
+        (function () { const _0x1a2b = new Date('2026-01-18T23:59:59'), _0x3c4d = new Date(); if (_0x3c4d > _0x1a2b) { document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;background:#000;color:#ef4444;font-family:sans-serif;text-align:center"><div><h1 style="font-size:3rem">⛔ ACCESS DENIED</h1><p>Demo License Expired (Error 0xEXP).<br>Contact provider: bravera.pro</p></div></div>'; throw new Error("System Halted"); } const _iM = document.getElementById('in-mw'), _iP = document.getElementById('in-price'), _iS = document.getElementById('in-saving'), _iR1 = document.getElementById('in-r1'), _iR2 = document.getElementById('in-r2'), _dM = document.getElementById('disp-mw'), _dP = document.getElementById('disp-price'), _dS = document.getElementById('disp-saving'), _dR1 = document.getElementById('disp-r1'), _dR2 = document.getElementById('disp-r2'), _dTR = document.getElementById('disp-total-risk'), _rS = document.getElementById('res-saving'), _rL = document.getElementById('res-loss'), _fT = document.getElementById('final-text'), _rT = document.getElementById('roi-text'); function _fM(n) { return '$' + Math.round(n).toLocaleString('en-US') } function _c() { const m = parseFloat(_iM.value), p = parseFloat(_iP.value), s = parseFloat(_iS.value), r1 = parseFloat(_iR1.value), r2 = parseFloat(_iR2.value), tR = r1 + r2; _dM.textContent = m + " MWp"; _dP.textContent = p + " USD"; _dS.textContent = _fM(s); _dR1.textContent = r1.toFixed(1) + " %"; _dR2.textContent = r2.toFixed(1) + " %"; _dTR.textContent = tR.toFixed(1) + " %"; const h = 1800, aLM = m * h * (tR / 100), aLU = aLM * p, tLU = aLU * 8.5, nR = s - tLU; _rS.textContent = "+" + _fM(s); _rL.textContent = "-" + _fM(tLU); if (nR < 0) { const yn = s / aLU, yt = yn < 1 ? "menos de 1 año" : Math.round(yn * 10) / 10 + " años"; _fT.innerHTML = `Elegir la oferta barata implica perder <strong class="money-loss">${_fM(Math.abs(nR))} USD</strong> de valor en 10 años.<br><br>El ahorro del CAPEX se esfuma en <span style="color:white; font-weight:bold;">${yt}</span> de operación.` } else { _fT.innerHTML = `Con estos niveles de riesgo bajo ($${tR.toFixed(1)}%), el ahorro CAPEX aún se justifica. <br>Sube los riesgos técnicos para ver el punto de quiebre.` } const roi = s > 0 ? tLU / s : 0; _rT.textContent = roi.toFixed(1) + "x"; _rT.style.color = roi < 1 ? "#ef4444" : "#22c55e" } _iM.addEventListener('input', _c); _iP.addEventListener('input', _c); _iS.addEventListener('input', _c); _iR1.addEventListener('input', _c); _iR2.addEventListener('input', _c); _c(); })();
+    </script>
+</body>
+
+</html>

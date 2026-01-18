@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Varianza - ID Energy Group</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Inter:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            /* Navy */
+            --card-bg: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #d4af37;
+            /* Gold */
+            --blue-brand: #1e3a8a;
+            --success-color: #22c55e;
+            --danger-color: #ef4444;
+            --font-family: 'Inter', system-ui, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            margin: 0 0 0.5rem 0;
+            color: var(--text-primary);
+        }
+
+        h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .value-display {
+            font-family: 'Monaco', monospace;
+            color: white;
+            font-weight: 700;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 6px;
+            background: #334155;
+            border-radius: 3px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Results Area */
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .result-box {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            text-align: center;
+            border-top: 4px solid #555;
+        }
+
+        .result-box.cheap {
+            border-color: var(--danger-color);
+        }
+
+        .result-box.premium {
+            border-color: var(--success-color);
+        }
+
+        .res-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .res-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Montserrat';
+        }
+
+        .vs-badge {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin: 0.5rem 0;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(30, 58, 138, 0.2) 0%, rgba(15, 23, 42, 0) 100%);
+            border: 1px solid var(--blue-brand);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 2rem;
+        }
+
+        .final-verdict {
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .money-loss {
+            color: var(--danger-color);
+            font-weight: 800;
+        }
+
+        .money-gain {
+            color: var(--success-color);
+            font-weight: 800;
+        }
+
+        .logo-area {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            opacity: 0.3;
+            font-size: 0.8rem;
+        }
+
+        /* New section for breakdown */
+        .risk-breakdown {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .risk-header {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- CONTROLES -->
+        <div class="card">
+            <h1>Calculadora de Varianza</h1>
+            <p class="subtitle">¿Cuánto cuesta realmente contratar al proveedor barato?</p>
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label>Tamaño de Planta (MWp)</label>
+                    <div class="value-display" id="disp-mw">9.0 MW</div>
+                </div>
+                <input type="range" id="in-mw" min="1" max="50" step="0.5" value="9">
+            </div>
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label>Precio Venta Energía ($/MWh)</label>
+                    <div class="value-display" id="disp-price">60 USD</div>
+                </div>
+                <input type="range" id="in-price" min="20" max="120" step="1" value="60">
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #334155; margin: 2rem 0;">
+
+            <div class="input-group">
+                <div class="input-row">
+                    <label style="color:#ef4444">Ahorro con Proveedor Barato ($/Año)</label>
+                    <div class="value-display" id="disp-saving" style="color:#ef4444">$5,000</div>
+                </div>
+                <input type="range" id="in-saving" min="1000" max="50000" step="1000" value="5000"
+                    style="accent-color:#ef4444">
+                <p style="font-size:0.75rem; color:#64748b; margin-top:5px;">Diferencia de precio en el contrato de O&M.
+                </p>
+            </div>
+
+            <!-- DESGLOSE DE RIESGO -->
+            <div class="risk-breakdown">
+                <div class="risk-header">
+                    <span>Fuentes de Pérdida Técnica</span>
+                    <span id="disp-total-risk">1.0%</span>
+                </div>
+
+                <!-- Riesgo 1: Respuesta -->
+                <div class="input-group" style="margin-bottom: 1rem;">
+                    <div class="input-row">
+                        <label>1. Tiempo de Respuesta Lento</label>
+                        <div class="value-display" id="disp-r1" style="font-size:0.9em">0.5 %</div>
+                    </div>
+                    <input type="range" id="in-r1" min="0" max="3.0" step="0.1" value="0.5">
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:2px;">Fallas fin de semana / Sin monitoreo
+                        24/7.</p>
+                </div>
+
+                <!-- Riesgo 2: Soiling -->
+                <div class="input-group" style="margin-bottom: 0;">
+                    <div class="input-row">
+                        <label>2. Limpieza Ciega (Soiling)</label>
+                        <div class="value-display" id="disp-r2" style="font-size:0.9em">0.5 %</div>
+                    </div>
+                    <input type="range" id="in-r2" min="0" max="3.0" step="0.1" value="0.5">
+                    <p style="font-size:0.7rem; color:#64748b; margin-top:2px;">Limpieza por calendario vs por suciedad
+                        real.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RESULTADOS -->
+        <div class="card">
+            <h2>IMPACTO FINANCIERO ANUAL</h2>
+
+            <div class="results-grid">
+                <!-- Escenario Barato -->
+                <div class="result-box cheap">
+                    <div class="res-label">Lo que ganas (Ahorro OPEX)</div>
+                    <div class="res-value" style="color: #94a3b8" id="res-saving">+$5,000</div>
+                    <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">"Ahorro de planilla Excel"</div>
+                </div>
+
+                <!-- Escenario Real -->
+                <div class="result-box premium">
+                    <div class="res-label">Lo que pierdes (Energía)</div>
+                    <div class="res-value money-loss" id="res-loss">-$12,000</div>
+                    <div style="font-size:0.8rem; color:#64748b; margin-top:5px;">Cash flow desaparecido</div>
+                </div>
+            </div>
+
+            <div class="vs-badge">VS</div>
+
+            <div class="highlight-box">
+                <div
+                    style="text-transform:uppercase; font-size:0.8rem; letter-spacing:1px; color:var(--accent-color); margin-bottom:10px;">
+                    Resultado Neto</div>
+                <div class="final-verdict" id="final-text">
+                    Al contratar el servicio barato, estás perdiendo <span class="money-loss">$7,000 USD</span> netos al
+                    año.
+                    <br><br>
+                    El "ahorro" del contrato se esfumó en solo <span style="color:white; font-weight:bold;">3
+                        meses</span> de ineficiencia.
+                </div>
+            </div>
+
+            <div style="margin-top:2rem; text-align:center;">
+                <p style="font-size:0.9rem; color:#94a3b8;">
+                    <strong>Retorno de Inversión ID Energy:</strong><br>
+                    Por cada $1 dólar extra que pagas en nuestro servicio,<br>
+                    recuperas <span id="roi-text" style="color:#22c55e; font-weight:800; font-size:1.2rem;">2.4x</span>
+                    en energía vendida.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="logo-area">Powered by bravera.pro for ID Energy Group</div>
+
+    <script>
+        // Inputs Principales
+        const inMw = document.getElementById('in-mw');
+        const inPrice = document.getElementById('in-price');
+        const inSaving = document.getElementById('in-saving');
+
+        // Inputs Riesgo (Desglose)
+        const inR1 = document.getElementById('in-r1'); // Respuesta
+        const inR2 = document.getElementById('in-r2'); // Soiling
+
+        // Displays
+        const dMw = document.getElementById('disp-mw');
+        const dPrice = document.getElementById('disp-price');
+        const dSaving = document.getElementById('disp-saving');
+
+        const dR1 = document.getElementById('disp-r1');
+        const dR2 = document.getElementById('disp-r2');
+        const dTotalRisk = document.getElementById('disp-total-risk');
+
+        // Results
+        const rSaving = document.getElementById('res-saving');
+        const rLoss = document.getElementById('res-loss');
+        const fText = document.getElementById('final-text');
+        const roiText = document.getElementById('roi-text');
+
+        function formatMoney(amount) {
+            return '$' + Math.round(amount).toLocaleString('en-US');
+        }
+
+        function calculate() {
+            // Valores Inputs
+            const mw = parseFloat(inMw.value);
+            const price = parseFloat(inPrice.value);
+            const saving = parseFloat(inSaving.value);
+
+            // Valores Riesgo
+            const valR1 = parseFloat(inR1.value);
+            const valR2 = parseFloat(inR2.value);
+            const totalRisk = valR1 + valR2; // % total (ej: 1.5)
+            const riskPct = totalRisk / 100; // decimal (ej: 0.015)
+
+            // Actualizar UI Inputs
+            dMw.textContent = mw + " MWp";
+            dPrice.textContent = price + " USD";
+            dSaving.textContent = formatMoney(saving);
+
+            dR1.textContent = valR1.toFixed(1) + " %";
+            dR2.textContent = valR2.toFixed(1) + " %";
+            dTotalRisk.textContent = totalRisk.toFixed(1) + " %";
+
+            // Cálculos Físicos
+            // Asunción: 2000 horas equivalentes (Zona Central Chile tipico PMGD)
+            const hours = 2000;
+            const energyMWh = mw * hours;
+
+            // Pérdida Financiera
+            const energyLost = energyMWh * riskPct;
+            const moneyLost = energyLost * price;
+
+            // Balance
+            const netResult = saving - moneyLost;
+
+            // Update UI
+            rSaving.textContent = "+" + formatMoney(saving);
+            rLoss.textContent = "-" + formatMoney(moneyLost);
+
+            // Texto Dinámico
+            if (netResult < 0) {
+                // Pierde dinero (Escenario normal)
+                // Calculo de "meses para esfumarse"
+                // saving / (moneyLost / 12)
+                let months = 0;
+                if (moneyLost > 0) months = saving / (moneyLost / 12);
+                const monthsText = months < 1 ? "menos de 1 mes" : Math.round(months) + " meses";
+
+                fText.innerHTML = `
+                    Al contratar el servicio barato, estás <strong class="money-loss">perdiendo ${formatMoney(Math.abs(netResult))} USD</strong> netos al año.
+                    <br><br>
+                    El "ahorro" del contrato se esfumó en solo <span style="color:white; font-weight:bold;">${monthsText}</span> de ineficiencia.
+                `;
+            } else {
+                // Gana dinero (Riesgo muy bajo configurado)
+                fText.innerHTML = `
+                    En este escenario de bajo riesgo (${totalRisk.toFixed(1)}%), el servicio barato <strong class="money-gain">ahorra ${formatMoney(netResult)} USD</strong>.
+                    <br><br>
+                    <span style="font-size:0.8rem">Esto asume que el proveedor barato NO comete errores graves. Si el riesgo sube al 1%, pierdes dinero.</span>
+                `;
+            }
+
+            // ROI de ID Energy
+            const roi = saving > 0 ? moneyLost / saving : 0;
+            roiText.textContent = roi.toFixed(1) + "x";
+
+            if (roi < 1) {
+                roiText.style.color = "#ef4444";
+            } else {
+                roiText.style.color = "#22c55e";
+            }
+        }
+
+        // Events
+        inMw.addEventListener('input', calculate);
+        inPrice.addEventListener('input', calculate);
+        inSaving.addEventListener('input', calculate);
+        inR1.addEventListener('input', calculate);
+        inR2.addEventListener('input', calculate);
+
+        // Init
+        calculate();
+
+    </script>
+</body>
+
+</html>
