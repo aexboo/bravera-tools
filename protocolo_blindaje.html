@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protocolo de Blindaje de Activos | Bravera Intelligence</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --bg-paper: #ffffff;
+            --text-main: #111827;
+            --text-secondary: #4b5563;
+            --accent-alert: #dc2626;
+            /* Rojo Financiero */
+            --accent-safe: #16a34a;
+            /* Verde Financiero */
+            --bravera-gold: #d97706;
+            --bravera-blue: #1e3a8a;
+            --border-line: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+            margin: 0;
+            -webkit-print-color-adjust: exact;
+        }
+
+        .document-container {
+            width: 210mm;
+            /* A4 */
+            height: 297mm;
+            background: var(--bg-paper);
+            padding: 20mm;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER ESTRATÉGICO */
+        .header {
+            border-bottom: 2px solid var(--text-main);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .brand h1 {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin: 0;
+            color: var(--text-main);
+        }
+
+        .brand .subtitle {
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .document-meta {
+            text-align: right;
+            font-size: 10px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* CUERPO CENTRAL */
+        h2 {
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-left: 4px solid var(--bravera-gold);
+            padding-left: 12px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+        }
+
+        p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .alert-box {
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .alert-box strong {
+            color: var(--accent-alert);
+            font-size: 12px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .alert-box p {
+            margin: 0;
+            color: #7f1d1d;
+            font-size: 13px;
+        }
+
+        /* SECCIÓN DE COMPARATIVA */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+
+        .col {
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .col.standard {
+            background: #f3f4f6;
+            border: 1px solid #e5e7eb;
+        }
+
+        .col.bravera {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+        }
+
+        .col h3 {
+            font-size: 12px;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            font-weight: 800;
+        }
+
+        .col ul {
+            margin: 0;
+            padding-left: 15px;
+        }
+
+        .col li {
+            font-size: 12px;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+        }
+
+        /* CALL TO ACTION (BOTTOM) */
+        .footer-cta {
+            margin-top: auto;
+            border-top: 1px solid var(--border-line);
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        .footer-cta p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* SEAL */
+        .seal {
+            position: absolute;
+            bottom: 30mm;
+            right: 20mm;
+            opacity: 0.1;
+            width: 100px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="document-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand">
+                <h1>BRAVERA INTELLIGENCE</h1>
+                <div class="subtitle">Asset Assurance Protocol &bull; Private & Confidential</div>
+            </div>
+            <div class="document-meta">
+                REF: BL-2026-ALPHA<br>
+                TO: C-SUITE / ASSET MANAGERS<br>
+                DATE: JAN 2026
+            </div>
+        </div>
+
+        <!-- Section 1: The Thesis -->
+        <h2>1. Tesis de Protección de Activos</h2>
+        <p>
+            En la transición de modelos "Build-to-Sell" a modelos "Independent Power Producer" (IPP), el riesgo
+            financiero se desplaza de la construcción a la operación.
+            Los sistemas de monitoreo SCADA tradicionales están diseñados para detectar <strong>fallos técnicos
+                (paradas)</strong>, pero son ciegos ante la <strong>erosión financiera (varianza)</strong>.
+        </p>
+
+        <div class="alert-box">
+            <strong>El Riesgo Invisible:</strong>
+            <p>
+                Una planta puede estar "100% Disponible" técnicamente, pero generando 4% menos de EBITDA debido a
+                suciedad mal gestionada, clipping no detectado o degradación acelerada.
+                Para un portafolio apalancado (Project Finance/Bonos), este 4% destruye el valor del Equity.
+            </p>
+        </div>
+
+        <!-- Section 2: Methodology -->
+        <h2>2. Metodología: "Auditoría de Varianza"</h2>
+        <p>
+            Bravera no es una empresa de O&M. Somos auditores de rendimiento.
+            Utilizamos algoritmos forenses para comparar el <strong>Modelo Financiero (Excel de Inversión)</strong>
+            contra la <strong>Realidad Operativa (Datos de Terreno)</strong>.
+        </p>
+
+        <div class="comparison-grid">
+            <div class="col standard">
+                <h3 style="color: #6b7280;">Operación Estándar</h3>
+                <ul>
+                    <li>Reactiva: "Si no hay alarma roja, todo está bien".</li>
+                    <li>Foco: Disponibilidad de equipos.</li>
+                    <li>Reporta: KWh generados.</li>
+                    <li><strong>Resultado:</strong> Fugas de valor silenciosas.</li>
+                </ul>
+            </div>
+            <div class="col bravera">
+                <h3 style="color: #16a34a;">Protocolo Bravera</h3>
+                <ul>
+                    <li>Proactiva: "Buscar la brecha matemática diaria".</li>
+                    <li>Foco: Integridad del Retorno (TIR).</li>
+                    <li>Reporta: Dólares perdidos por ineficiencia.</li>
+                    <li><strong>Resultado:</strong> Blindaje de Flujo de Caja.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 3: Deliverables -->
+        <h2>3. Entregables Estratégicos</h2>
+        <p>
+            Nuestro servicio entrega certeza, no solo reportes.
+        </p>
+        <ul style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+            <li><strong>Reporte de "Costo de Caos":</strong> Cuantificación monetaria exacta de las ineficiencias
+                operativas mensuales.</li>
+            <li><strong>Certificado de Integridad de Datos:</strong> Validación de terceros independiente para presentar
+                ante Comités de Inversión o Due Diligence de Exit.</li>
+            <li><strong>Alertas de Desviación Financiera:</strong> Notificación inmediata cuando la curva de producción
+                amenaza el cumplimiento de covenants de deuda.</li>
+        </ul>
+
+        <!-- Footer -->
+        <div class="footer-cta">
+            <p>"La confianza no se pide. Se audita."</p>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #9ca3af; margin-top: 10px;">
+                BRAVERA INTELLIGENCE S.A. | AVENIDA APOQUINDO 6410, SANTIAGO | WWW.BRAVERA.PRO
+            </div>
+        </div>
+
+        <!-- Watermark/Seal (Visual Only) -->
+        <svg class="seal" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#000" stroke-width="2" />
+            <text x="50" y="55" text-anchor="middle" font-size="12" font-family="Arial"
+                font-weight="bold">AUDITED</text>
+        </svg>
+    </div>
+
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 
 <head>
     <!-- Google tag (gtag.js) -->
@@ -8,89 +8,133 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-XRR8762LP4');
     </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bravera Intelligence Tools</title>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <title>Bravera Intelligence | Asset Assurance</title>
+    <meta name="description"
+        content="Auditoría forense de varianza operativa para portfolios de energía renovable (IPP).">
+
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            /* Slate 900 */
+            --text-primary: #f8fafc;
+            /* Slate 50 */
+            --text-secondary: #94a3b8;
+            /* Slate 400 */
+            --accent-gold: #d97706;
+            /* Bravera Gold */
+        }
+
         body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
-            background: #0f172a;
-            color: white;
+            margin: 0;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
-            margin: 0;
+            text-align: center;
         }
 
-        .logo {
-            width: 180px;
-            margin-bottom: 30px;
+        .container {
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .logo-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
         }
 
         h1 {
-            color: #3b82f6;
+            font-size: 3rem;
+            font-weight: 600;
+            letter-spacing: -2px;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+        }
+
+        p {
+            color: var(--text-secondary);
             font-size: 1.2rem;
-            font-weight: 400;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 0;
+            font-weight: 300;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
         }
 
-        .tool-link {
-            background: #1e293b;
-            padding: 20px;
-            margin: 10px;
-            border-radius: 8px;
-            text-decoration: none;
-            color: white;
+        a.button-login {
+            display: inline-block;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            padding: 12px 24px;
             border: 1px solid #334155;
-            width: 300px;
-            text-align: center;
-            display: block;
-            transition: all 0.2s;
-        }
-
-        .tool-link:hover {
-            border-color: #3b82f6;
-            transform: translateY(-2px);
-        }
-
-        .tag {
-            font-size: 11px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
             text-transform: uppercase;
-            color: #94a3b8;
             letter-spacing: 1px;
-            display: block;
-            margin-bottom: 5px;
+        }
+
+        a.button-login:hover {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #475569;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            p {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <img src="logo_bravera.png" alt="Bravera Logo" class="logo">
-    <h1>Intelligence Tools</h1>
-    <p style="color: #64748b; margin-bottom: 40px; font-size: 0.9rem;">Acceso restringido a clientes.</p>
 
-    <a href="calculadora_tco.html" class="tool-link">
-        <span class="tag">NIVEL 2: BLINDAJE</span>
-        <strong>Calculadora TCO vs CAPEX</strong>
-    </a>
+    <div class="container">
+        <div class="logo-text">Bravera Intelligence System</div>
 
-    <a href="calculadora_varianza.html" class="tool-link">
-        <span class="tag">NIVEL 2: BLINDAJE</span>
-        <strong>Calculadora de Varianza de Retorno</strong>
-    </a>
+        <h1>Asset Assurance &<br>Variance Auditing</h1>
 
-    <a href="matriz_riesgo.html" class="tool-link">
-        <span class="tag">NIVEL 1: VENTAS</span>
-        <strong>Matriz de Riesgo PYME / Industrial</strong>
-    </a>
+        <p>
+            Transformamos ineficiencia operativa en integridad financiera.<br>
+            Auditoría de activos IPP & PMGD para fondos de inversión.
+        </p>
+
+        <a href="https://tools.bravera.pro" class="button-login">Client Access Portal_</a>
+    </div>
+
+    <div class="footer">
+        SANTIAGO &bull; PRIVATE INTELLIGENCE FIRM &bull; EST. 2024
+    </div>
+
 </body>
 
 </html>
